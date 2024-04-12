@@ -1,45 +1,10 @@
 const fs = require("fs");
-const { json } = require("node:stream/consumers");
-const { getPriority } = require("os");
 
 //variables
 let products = [];
 let pathFile = "./data/products.json";
 
-const addProduct = async (
-  title,
-  description,
-  price,
-  thumbnail,
-  code,
-  stock
-) => {
-  const newProduct = {
-    id: products.length + 1,
-    title,
-    description,
-    price,
-    thumbnail,
-    code,
-    stock,
-  };
-
-  Object.values(newProduct);
-  if (Object.values(newProduct).includes(undefined)) {
-    console.log("Todos los campos son obligatorios");
-    return;
-  }
-
-  const productsExists = products.find((product) => product.code === code);
-  if (productsExists) {
-    console.log(`El producto ${title} con el codigo ${code} ya existe`);
-    return;
-  }
-
-  products.push(newProduct);
-
-  await fs.promises.writeFile(pathFile, JSON.stringify(products));
-};
+//metodos
 
 const getProducts = async () => {
   const productsJson = await fs.promises.readFile(pathFile, "utf8");
