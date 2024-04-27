@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true })); //para leer queries y params
 //solicitudes / peticiones
 app.get("/", index);
 app.get("/products", read);
-app.get("/products/:nid", readOne);
+app.get("/products/:pid", readOne);
 
 //configurar las callbacks
 
@@ -58,8 +58,8 @@ async function read(req, res) {
 
 async function readOne(req, res) {
   try {
-    const { nid } = req.params;
-    const one = await getProductByID(nid);
+    const { pid } = req.params;
+    const one = await getProductByID(pid);
     if (one) {
       return res.json({ status: 200, response: one });
     } else {
