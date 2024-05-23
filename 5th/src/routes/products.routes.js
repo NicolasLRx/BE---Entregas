@@ -9,7 +9,7 @@ router.get("/", read);
 router.post("/", add);
 router.get("/:pid", readOne);
 router.put("/:pid", update);
-router.delete(":pid", del);
+router.delete("/:pid", del);
 
 //configurar las callbacks
 
@@ -53,11 +53,10 @@ async function readOne(req, res) {
 
 async function add(req, res) {
   try {
-
     const product = req.body;
     const newProduct = await productDao.create(product);
 
-    res.status(200), json({status:"success", payload:newProduct});
+    res.status(200).json({status:"success", payload: newProduct });
   } catch (error) {
     console.log(error);
     return res.json({
@@ -97,7 +96,7 @@ async function del(req, res) {
 if(!product){
     return res.status(404).json({status:"Error", msg: `Producto con el id ${pid} no encontrado`});
 }
-    res.status(200), json({status:"Producto Eliminado"});
+    res.status(200).json({status:"Producto Eliminado"});
   } catch (error) {
     console.log(error);
     return res.json({

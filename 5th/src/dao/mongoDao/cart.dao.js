@@ -6,10 +6,10 @@ const getById = async (id) => {
   return cart;
 };
 
-const create = (async = async (data) => {
+const create = async (data) => {
   const cart = await cartModel.create(data);
   return cart;
-});
+};
 
 
 const addProductToCart = async (cid, pid) => {

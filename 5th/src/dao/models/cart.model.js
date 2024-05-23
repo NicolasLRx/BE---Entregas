@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const cartCollection = "carts";
 
-const cartSchema = new mongoose.cartSchema({
+const cartSchema = new mongoose.Schema({
 
     product: {
         type: Array,

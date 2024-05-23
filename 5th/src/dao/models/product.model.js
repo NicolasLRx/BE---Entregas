@@ -1,8 +1,8 @@
-import moongoose from "mongoose";
+import mongoose from "mongoose";
 
 const productCollection = "products";
 
-const productSchema = new moongoose.productSchema({
+const productSchema = new mongoose.Schema({
 
       title:{
         type: String,

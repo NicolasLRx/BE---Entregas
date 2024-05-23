@@ -1,6 +1,6 @@
 import express, { response } from "express";
 import router from "./routes/index.js";
-import { connectMongoDB} from ".config/mongoDb.config.js";
+import {connectMongoDB} from "./config/mongoDB.config.js";
 
 connectMongoDB();
 
