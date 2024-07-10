@@ -54,12 +54,11 @@ const initializePassport = () => {
     )
   );
 
-  passport.use(
+/*   passport.use(
     "google",
     new GoogleStrategy(
         {
         
-          
         },
         async (accessToken, refreshToken, profile, cb ) => {
             try {
@@ -84,7 +83,7 @@ const initializePassport = () => {
         }
     )
 
-  )
+  ) */
 
   passport.serializeUser((user, done) => {
     done(null, user._id);
