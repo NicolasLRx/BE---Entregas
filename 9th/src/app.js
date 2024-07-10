@@ -5,7 +5,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
-
+import cookieParser from "cookie-parser";
 
 connectMongoDB();
 
@@ -16,6 +16,7 @@ const app = express();
 //para configurar el servidor con determinadas funcionalidades
 app.use(express.json()); //para manejar json
 app.use(express.urlencoded({ extended: true })); //para leer queries y params
+app.use(cookieParser("secret"));
 app.use(session({
     store: MongoStore.create({
         mongoUrl: "mongodb+srv://admin:admin123456@e-commerce.bhmfzw2.mongodb.net/ecommerce",
