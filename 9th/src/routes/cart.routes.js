@@ -1,14 +1,14 @@
 import { Router } from "express";
 import cartDao from "../dao/mongoDao/cart.dao.js";
-
+import {passportCall, authorization } from "../middlewares/passport.middleware.js"
 const router = Router();
 
 //solicitudes / peticiones
 
-router.post("/", add);
-router.get("/:cid", readOne);
-router.post("/:cid/product/:pid", addToCart);
-router.delete("/:cid/product/:pid", deleteOne);
+router.post("/",  passportCall("jwt"),authorization("user"), add);
+router.get("/:cid", passportCall("jwt"),authorization("user"), readOne);
+router.post("/:cid/product/:pid", passportCall("jwt"),authorization("user"), addToCart);
+router.delete("/:cid/product/:pid", passportCall("jwt"),authorization("user"), deleteOne);
 
 
 //configurar las callbacks

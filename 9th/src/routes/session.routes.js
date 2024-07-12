@@ -3,14 +3,16 @@ import userDao from "../dao/mongoDao/user.dao.js";
 import {createHash ,isValidPassword} from "../utils/hashPassword.js";
 import passport from "passport";
 import { createToken, verifyToken } from "../utils/jwt.js";
+import { authorization, passportCall } from "../middlewares/passport.middleware.js";
+import { userLoginValidator } from "../validators/userLogin.validator.js";
 
 const router = Router();
 
 //solicitudes / peticiones
-router.post("/register",passport.authenticate("register"), register);
+router.post("/register",passportCall("register"), register);
 router.post("/login",passport.authenticate("login"),login);
-router.post("/login/jwt", jwt);
-router.get("/current", current);
+router.post("/login/jwt",userLoginValidator, jwt);
+router.get("/current", passportCall("jwt"), authorization("user"), current);
 router.get("/login/google",passport.authenticate("google",{
     scope:  ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"],
     session: false 
@@ -69,11 +71,9 @@ async function jwt(req, res){
 async function current (req, res){
 
     try {
-        const token = req.cookies.token;
-        const checkToken = verifyToken(token);
-        if(!checkToken) return res.status(403).json({status: "error", msg: "invalid token"});
+        
 
-        return res.status(200).json({status: "success", payload: checkToken });
+        return res.status(200).json({status: "success", payload: req.user });
 
     } catch (error) {
         console.log(error);

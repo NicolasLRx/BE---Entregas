@@ -1,16 +1,17 @@
 import { Router, json } from "express";
 import productDao from "../dao/mongoDao/product.dao.js";
-
+import {passportCall, authorization} from "../middlewares/passport.middleware.js";
+import { productDataValidartor } from "../validators/productData.validator.js";
 
 const router = Router();
 
 //solicitudes / peticiones
 
 router.get("/", read);
-router.post("/", add);
+router.post("/", passportCall("jwt"),authorization("admin"),productDataValidartor, add);
 router.get("/:pid", readOne);
-router.put("/:pid", update);
-router.delete("/:pid", del);
+router.put("/:pid", passportCall("jwt"),authorization("admin"), update);
+router.delete("/:pid", passportCall("jwt"),authorization("admin"), del);
 
 //configurar las callbacks
 

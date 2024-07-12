@@ -6,8 +6,8 @@ import {isLogin} from "../middlewares/isLogin.middlewares.js";
 
 const router = Router();
 
-router.use("/products", isLogin , productRouters);
-router.use("/carts", isLogin , cartsRoutes);
+router.use("/products", productRouters);
+router.use("/carts", cartsRoutes);
 router.use("/session",  sessionRouters);
 
 export default router;
