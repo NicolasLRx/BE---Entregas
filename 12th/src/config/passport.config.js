@@ -88,7 +88,7 @@ const initializePassport = () => {
     )
   );
 
-    passport.use(
+  passport.use(
     "google",
     new GoogleStrategy(
         {

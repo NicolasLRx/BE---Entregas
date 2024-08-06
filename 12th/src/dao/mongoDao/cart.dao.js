@@ -11,39 +11,13 @@ const create = async (data) => {
   return cart;
 };
 
-
-const addProductToCart = async (cid, pid) => {
-
-   const productInCart = await cartModel.findOneAndReplace({_id: cid, "products.product": pid}, {$inc: {"products.$.quantity": 1}});
-
-   if(!productInCart){
-
-    await cartModel.findByIdAndUpdate(cid, {$push: { product: {pid , quantity: 1}}});
-
-   }
-   const cart = await cartModel.findById(cid);
-    
-    return cart;
-
-
-}
-
-
-const deleteProductInCart = async (cid, pid) => {
-
-  const product = await productModel.findById(pid);
-    if(!product) 
-      return {
-        product: false
-    };
-
-     const cart = await cartModel.findOneAndReplace({_id: cid, "products.product": pid}, {$inc: {"products.$.quantity": -1}} ); 
-
+const update = async (query, data) => {
+  return await cartModel.findOneAndUpdate(query, data, { new: true });
 };
+
 
 export default {
   getById,
   create,
-  addProductToCart,
-  deleteProductInCart,
-};
+  update,
+}
