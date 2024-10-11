@@ -11,9 +11,7 @@ import swaggerUiExpress from "swagger-ui-express";
 import { errorHandle } from "./errors/errorHandle.js";
 import { logger } from "./utils/logger.js"
 import { specs } from "./config/swagger.config.js"
-
-
-
+import cors from "cors";
 
 connectMongoDB();
 
@@ -38,9 +36,9 @@ app.use(session({
 app.use (passport.initialize());
 app.use (passport.session());
 initializePassport();
+app.use(cors());
 
 app.use("/api-docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
-
 
 app.use("/api", router);
 

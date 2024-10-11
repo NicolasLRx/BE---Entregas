@@ -13,8 +13,8 @@ const swaggerOptions = {
         },
 
     },
-    apis:[`${__dirname}/src/docs/**/*.yalm`]
+    apis:[`${__dirname}/src/docs/**/*.yaml`]
 
 }
 
-export const specs = swaggerOptions(swaggerOptions);
+export const specs = swaggerJSDoc(swaggerOptions);

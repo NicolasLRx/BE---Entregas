@@ -1,34 +1,16 @@
 import { Router } from "express";
-import productController from "../controllers/products.controller.js";
-import {
-  authorization,
-  passportCall,
-} from "../middlewares/passport.middleware.js";
-import { productDataValidartor } from "../validators/productData.validator.js";
+import productsControllers from "../controllers/products.controller.js";
+import { authorization, passportCall } from "../middlewares/passport.middleware.js";
+
 const router = Router();
+router.get("/", productsControllers.getAll);
 
-//solicitudes / peticiones
+router.get("/:pid", productsControllers.getById);
 
-router.get("/", productController.getAll);
-router.post(
-  "/",
-  passportCall("jwt"),
-  authorization("admin"),
-  productDataValidartor,
-  productController.create
-);
-router.get("/:pid", productController.getById);
-router.put(
-  "/:pid",
-  passportCall("jwt"),
-  authorization("admin"),
-  productController.update
-);
-router.delete(
-  "/:pid",
-  passportCall("jwt"),
-  authorization("admin"),
-  productController.del
-);
+router.post("/", passportCall("jwt"), authorization(["admin", "premium"]), productsControllers.create);
+
+router.put("/:pid", passportCall("jwt"), authorization(["admin", "premium"]), productsControllers.update);
+
+router.delete("/:pid", passportCall("jwt"), authorization(["admin", "premium"]), productsControllers.del);
 
 export default router;
