@@ -8,17 +8,14 @@ const productSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-
   description: {
     type: String,
     require: true,
   },
-
   thumbnail: {
     type: Array,
     default: [],
   },
-
   code: {
     type: String,
     require: true,
@@ -31,16 +28,18 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-
   price: {
     type: Number,
     require: true,
   },
-
   category: {
     type: String,
-    require: true,
+    require: true
   },
+  owner:{
+    type: String,
+    default: "admin"
+  }
 });
 
 productSchema.plugin(mongoosePaginate);

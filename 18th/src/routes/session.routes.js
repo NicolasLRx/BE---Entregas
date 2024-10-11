@@ -1,64 +1,47 @@
 import { Router } from "express";
 import passport from "passport";
-import sessionController from "../controllers/session.controller.js";
-import {
-  authorization,
-  passportCall,
-} from "../middlewares/passport.middleware.js";
+import sessionControllers from "../controllers/session.controller.js";
+import { authorization, passportCall } from "../middlewares/passport.middleware.js";
 import { sendMail } from "../utils/sendMails.js";
 import { generateUsersMocks } from "../mocks/user.mocks.js";
 
-
 const router = Router();
 
-//solicitudes / peticiones
-router.post("/register", passportCall("register"), sessionController.register);
-router.post("/login", passportCall("login"), sessionController.login);
+router.post("/register", passportCall("register"), sessionControllers.register);
+
+router.post("/login", passportCall("login"), sessionControllers.login);
+
+router.get("/current", passportCall("jwt"), authorization("user"), sessionControllers.current);
+
 router.get(
-  "/current",
-  passportCall("jwt"),
-  authorization("user"),
-  sessionController.current
-);
-router.get(
-  "/login/google",
+  "/google",
   passport.authenticate("google", {
-    scope: [
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/userinfo.profile",
-    ],
+    scope: ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"],
     session: false,
   }),
-  sessionController.loginGoogle
+  sessionControllers.loginGoogle
 );
-router.get("/logout", sessionController.logout);
 
-router.get("/email", async(req, res) =>{
-  
-  const {name} = req.body;
+router.get("/logout", sessionControllers.logout);
 
-  const template=  `
-  <div>
-  
-      <h1>Hola ${name}!,Bienvenido a la app!</h1>
-  
-  </div>
-  
-  
-  `
+router.get("/email", async (req, res) => {
+  const { name } = req.body;
 
-  await sendMail("", "Test Nodemailer",  "Mail de prueba", template);
+  const template = `
+    <div>
+      <h1> Bienvenidos ${name} a nuestra App </h1> />
+    </div>
+    `;
 
-  return res.status(200).json({status: "ok", msg: "Email enviado"})
+  await sendMail("nicolaslrx@gmail.com", "Test nodemailer", "Este es un mensaje de prueba", template);
+
+  return res.status(200).json({ status: "ok", msg: "Email enviado" });
 });
 
-router.get("/usersmocks"), async (req,res)=>{
+router.get("/usersmocks", async (req, res) => {
+  const users = generateUsersMocks(10000);
 
-  const users = generateUsersMocks(5);
-  console.log(users)
-  return res.status(200).json({status: "ok", msg: users})
-}
-
-
+  return res.status(200).json({ status: "ok", users });
+});
 
 export default router;
